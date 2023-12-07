@@ -17,7 +17,7 @@ let request = false;
 
 export default () => {
   const [loading, setLoading] = useState(false);
-  const [positions, setPositions] = useState(null);
+  const [positions, setPositions] = useState([]);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const router = useRouter();
 
@@ -54,13 +54,16 @@ export default () => {
         setLoading(false)
         console.log(err)}
     )}}, []);
-    
+  
+  /*
   if(!positions)
     getPositions().then(res => setPositions(res.data)).catch(err => console.log(err));
       
+
   if(loading || positions == null)
-        return (<Loader active/>)
-    
+    return (<Loader active/>)
+    */
+
   return (
     <div>
       <link
@@ -88,7 +91,7 @@ export default () => {
         <Form.Group widths='equal'>
           <Form.Input fluid label='Maaş Hesaplama Uygulaması Linki' placeholder='Çalışan Maaşını hesaplamak için kullanmak istediğiniz uygulamanızın linkini giriniz.' name="accountingUrl"/>
         </Form.Group>
-        <Form.Select label="Ünvan" placeholder='Ünvan Seçiniz' options={positions.map(element => {return { key: element.id, value: element.name, text: element.name }})} onChange={(e,data) => {selectedPositionId = (data.options.find(element => (element.value === data.value)).key);}} ></Form.Select>
+        <Form.Select label="Ünvan" placeholder='Ünvan Seçiniz' /*options={positions.map(element => {return { key: element.id, value: element.name, text: element.name }})} onChange={(e,data) => {selectedPositionId = (data.options.find(element => (element.value === data.value)).key);}}*/ ></Form.Select>
         <TextArea placeholder='Çalışan Adresi' style={{marginTop: 10 + "px", marginBottom: 10 + "px"}} name="address"/>
         <Form.Button type='submit' primary>Ekle</Form.Button>
       </Form>

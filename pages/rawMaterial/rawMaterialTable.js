@@ -145,7 +145,7 @@ const renderEmployees = (employeeData, [open, setOpen]) => {
     });
 };
 
-function employeeTable(){
+function rawMaterialTable(){
   const router = useRouter();
   const [data, setData] = useState([]);
   const [open, setOpen] = React.useState(false);
@@ -184,8 +184,8 @@ function employeeTable(){
             <Table.HeaderCell />
             <Table.HeaderCell/>
             <Table.HeaderCell>
-              <Button floated="right" primary size="small" fluid onClick={() => {router.push('/employee/addEmployee');}}>
-                <Icon name="plus circle" /> Çalışan Ekle
+              <Button floated="right" primary size="small" fluid onClick={() => {router.push('/rawMaterial/addRawMaterial');}}>
+                <Icon name="plus circle" /> Hammadde Ekle
               </Button>
             </Table.HeaderCell>
           </Table.Row>
@@ -194,5 +194,5 @@ function employeeTable(){
   );
 };
 
-export default employeeTable;
+export default rawMaterialTable;
 

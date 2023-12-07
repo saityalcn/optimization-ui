@@ -37,7 +37,7 @@ export default (props) => {
           >
             <div style={{display: "flex", justifyContent: "space-between", flexDirection: "column", height: 100 + "%"}}>
               <div>
-                <Header>YSOFT Yazılım Evi İnsan Kaynakları Sistemi</Header>
+                <Header>Üretim Optimizasyonu</Header>
               <Menu.Item
                 as="a"
                 style={{ color: iconColor }}
@@ -52,11 +52,30 @@ export default (props) => {
                 as="a"
                 style={{ color: iconColor }}
                 onClick={() => {
-                  router.push('/project/projects');
+                  router.push('/product/products');
+                }}>
+                <Icon name="list alternate" />
+                Ürünler
+              </Menu.Item>
+              <Menu.Item
+                as="a"
+                style={{ color: iconColor }}
+                onClick={() => {
+                  router.push('/rawMaterial/rawMaterials');
                 }}>
                 <Icon name="keyboard" />
-                Projeler
+                Hammaddeler
               </Menu.Item>
+              <Menu.Item
+                as="a"
+                style={{ color: iconColor }}
+                onClick={() => {
+                  router.push('/order/orders');
+                }}>
+                <Icon name="truck" />
+                Siparişler
+              </Menu.Item>
+              {/*
               <Menu.Item
                 as="a"
                 style={{ color: iconColor }}
@@ -67,7 +86,9 @@ export default (props) => {
                 <Icon name="id badge" />
                 Çalışanlar
               </Menu.Item>
+              */}
             </div>
+
             
             <div>
             <Menu.Item
