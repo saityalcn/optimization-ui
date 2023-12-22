@@ -4,9 +4,7 @@ import {
   Header,
 } from 'semantic-ui-react';
 
-
-import EmployeeTable from '../employee/employeeTable';
-import ProjectsTable from '../project/projectsTable';
+import RawMaterialsTable from '../rawMaterial/rawMaterialTable';
 import MainLayout from '../layouts/layout';
 
 export default () => {
@@ -18,8 +16,8 @@ export default () => {
         href="semantic/dist/semantic.min.css"
       ></link>
       <MainLayout>
-        <Header as="h2">Teslim Tarihi Geçen Projeler</Header>
-        <ProjectsTable></ProjectsTable>
+        <Header as="h2">Üretim Planları</Header>
+        <RawMaterialsTable></RawMaterialsTable>
 
       </MainLayout>
     </div>

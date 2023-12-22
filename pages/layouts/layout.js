@@ -37,7 +37,7 @@ export default (props) => {
           >
             <div style={{display: "flex", justifyContent: "space-between", flexDirection: "column", height: 100 + "%"}}>
               <div>
-                <Header>Üretim Optimizasyonu</Header>
+                <Header>Üretim Optimizasyonu Sistemi</Header>
               <Menu.Item
                 as="a"
                 style={{ color: iconColor }}
