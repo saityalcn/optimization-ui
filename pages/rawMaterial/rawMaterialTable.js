@@ -10,9 +10,9 @@ const renderBody = (data) => {
     return (
       <Table.Row key={element.id}>
           <Table.Cell>{element.id}</Table.Cell>
-          <Table.Cell>{element.materialName}</Table.Cell>
-          <Table.Cell></Table.Cell>
-          <Table.Cell></Table.Cell>
+          <Table.Cell>{element.information.materialName}</Table.Cell>
+          <Table.Cell>{element.title}</Table.Cell>
+          <Table.Cell>{element.quantity} kg</Table.Cell>
           <Table.Cell></Table.Cell>
           <Table.Cell></Table.Cell>
       </Table.Row>
@@ -43,8 +43,8 @@ function projectsTable(){
         <Table.Row>
           <Table.HeaderCell>ID</Table.HeaderCell>
           <Table.HeaderCell>Hammadde Adı</Table.HeaderCell>
-          <Table.HeaderCell />
-          <Table.HeaderCell />
+          <Table.HeaderCell>Üretim Planı</Table.HeaderCell>
+          <Table.HeaderCell>Miktar</Table.HeaderCell>
           <Table.HeaderCell />
           <Table.HeaderCell />
         </Table.Row>

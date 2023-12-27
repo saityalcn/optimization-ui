@@ -10,29 +10,33 @@ import Layout from '../layouts/layout';
 import {addOrder} from '../../services/orderService'
 import { getProducts } from '../../services/productService';
 import { useRouter } from 'next/router';
-import { getPositions } from '../../services/positionService';
-import { getFreeWorkers } from '../../services/employeeService';
+import { getProductionPlans } from '../../services/productionPlanService';
 
 let request = false;
+let selectedPlanId;
 let selectedProductId;
 
 
 const addProjectForm = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState(null)
+  const [plans, setPlans] = useState(null)
   
   const router = useRouter();
   if(!products)
     getProducts().then(res => {setProducts(res.data)}).catch(err => console.log(err));
 
-
+  if(!plans)
+    getProductionPlans().then(res => {setPlans(res.data)}).catch(err => console.log(err));
 
   const createOrder = useCallback(async (event) => {
-    console.log(productId);
     setLoading(true)
+
     const jsonObject = JSON.stringify({
       orderQuantity: event.target.quantity.value,
       orderTitle: event.target.title.value,
+      product: products.find(element => element.id === selectedProductId),
+      productionPlan: plans.find(element => element.id === selectedPlanId)
     });
 
     if(!request){
@@ -50,10 +54,17 @@ const addProjectForm = () => {
       <Loader active/>
       );
   }
+    
+  if(!plans){
+    return (    
+      <Loader active/>
+      );
+  }
 
   return (
     <Layout>
       <Form onSubmit={createOrder}>
+        <Form.Select label="Üretim Planı" placeholder='Üretim Planı Seçiniz' options={plans.map(element => {return { key: element.id, value: element.title, text: element.title }})} onChange={(e,data) => {selectedPlanId = (data.options.find(element => (element.value === data.value)).key);}}></Form.Select>
         <Form.Select label="Ürün Tipi" placeholder='Ürün Tipi Seçiniz' options={products.map(element => {return { key: element.id, value: element.title, text: element.title }})} onChange={(e,data) => {selectedProductId = (data.options.find(element => (element.value === data.value)).key);}}></Form.Select>
         <Form.Group widths='equal'>
           <Form.Input name="title" type="text" label="Sipariş Başlığı" />
