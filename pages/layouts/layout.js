@@ -75,18 +75,18 @@ export default (props) => {
                 <Icon name="truck" />
                 Siparişler
               </Menu.Item>
-              {/*
+              {
               <Menu.Item
                 as="a"
                 style={{ color: iconColor }}
                 onClick={() => {
-                  router.push('/employee/employees');
+                  router.push('/user/users');
                 }}
               >
                 <Icon name="id badge" />
                 Çalışanlar
               </Menu.Item>
-              */}
+              }
             </div>
 
             

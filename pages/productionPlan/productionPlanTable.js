@@ -1,13 +1,71 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
-import { Table, Button, Icon, Loader, Modal } from 'semantic-ui-react';
+import { Table, Button, Icon, Loader, Modal, Message, Tab, Grid, Header } from 'semantic-ui-react';
 import { useState,useCallback } from 'react';
 import { useRouter } from 'next/router';
 import {getProductionPlans, saveOptimizedProduction} from '../../services/productionPlanService'
 import moment from 'moment';
 
+
+const renderModalTableBody = (data) => {
+  if(data == null) return;
+
+  return data.map((element) => {
+    return (
+      <Table.Row key={element.id}>
+        <Table.Cell>{element.id}</Table.Cell>
+        <Table.Cell>{element.information.materialName}</Table.Cell>
+        <Table.Cell>{element.quantity} kg</Table.Cell>
+        <Table.Cell></Table.Cell>
+        <Table.Cell></Table.Cell>
+      </Table.Row>
+    );
+  });
+  
+}
+
+
+const renderPlanDetail = (plan) => {
+    return(
+      <Tab.Pane>
+        <Grid columns="equal" style={{ paddingTop: '20px', paddingBottom: '20px' }}>
+          <Grid.Row>
+              <Grid.Column>
+              <Header as="h3">Üretim Tarihleri</Header>
+              </Grid.Column>
+              <Grid.Column>{formatDate(plan.startDate)} - {formatDate(plan.endDate)}</Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Table unstackable padded>
+          <Table.Header>
+            <Table.Row>
+            <Table.HeaderCell>ID</Table.HeaderCell>
+            <Table.HeaderCell>Hammadde Adı</Table.HeaderCell>
+            <Table.HeaderCell>Miktar</Table.HeaderCell>
+            <Table.HeaderCell />
+            <Table.HeaderCell />
+            </Table.Row>
+          </Table.Header>
+            <Table.Body>{renderModalTableBody(plan.orderPlannedProductionRawMaterials)}</Table.Body>
+          </Table>
+      </Tab.Pane>
+    );
+}
+
 const renderModalBody = ([selectedPlan, setSelectedPlan]) => {
-  <div>{selectedPlan} abc</div>
+  const panes = []
+  if(selectedPlan){
+    selectedPlan.plannedProductionList.forEach((element, index) => {
+      panes.push(
+        {
+          menuItem: index + 1,    // product title 
+          render: () => renderPlanDetail(element)
+        }
+      )
+    });
+
+    return <Tab panes={panes}></Tab>
+  }
 }
 
 const renderBody = (data, [open, setOpen], [selectedPlan, setSelectedPlan]) => {
@@ -19,11 +77,10 @@ const renderBody = (data, [open, setOpen], [selectedPlan, setSelectedPlan]) => {
           <Table.Cell>{formatDate(element.startDate)}</Table.Cell>
           <Table.Cell>{formatDate(element.endDate)}</Table.Cell>
           <Table.Cell>
-            <Button primary size="small" fluid onClick={() => {saveOptimizedProduction(element.id)}}> Üretimi Planla
-              </Button>
-          </Table.Cell>
-          <Table.Cell>
-          <Modal
+            {element.plannedProductionList == null || element.plannedProductionList.length === 0 && <Button positive size="small" fluid onClick={() => {saveOptimizedProduction(element.id)}}> Üretimi Planla
+              </Button>}
+              {element.plannedProductionList && element.plannedProductionList.length > 0 &&
+                <Modal
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
                 open={open}
@@ -45,12 +102,15 @@ const renderBody = (data, [open, setOpen], [selectedPlan, setSelectedPlan]) => {
                         <Button negative onClick={() => setOpen(false)}>Kapat</Button>
                     </Modal.Actions>
                 </Modal>
+              }
+          </Table.Cell>
+          <Table.Cell>
           </Table.Cell>
       </Table.Row>
     );
   });
   
-};
+}
 
 
 function formatDate(date){

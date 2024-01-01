@@ -16,7 +16,7 @@ import {
   Message,
 } from 'semantic-ui-react';
 
-import {logIn} from "../services/accountService"
+import {login} from "../services/userService"
 
 const description = 'Lütfen Sistem Yöneticinizle İletişime Geçiniz.';
 
@@ -26,32 +26,26 @@ let wrongInfoError = false;
 function Home() {
 const [isSending, setIsSending] = useState(false);
 const router = useRouter();
-const sendRequest = useCallback(async (event) => {
+const sendLoginRequest = useCallback(async (event) => {
   if (isSending) return
 
   setIsSending(true);
   const email = event.target.email.value;
   const password = event.target.password.value;
-  const jsonObject = {username: email, password: password};
+  const jsonObject = {email: email, password: password};
 
-
-  const response = await logIn(jsonObject).catch(err => {
-    wrongInfoError = true;
-  })
-
-
-  if(response && response.data.email){
-    jsCookie.set('email', response.data.email);
-    jsCookie.set('name', response.data.name);
-    jsCookie.set('surname', response.data.surname);
-
-
-    return router.push('/home/home');
-  }
-
-  else
-    wrongInfoError = true;
+  login(jsonObject).then(res => {
+    console.log(res);
+    if(res.data && res.data.email){
+      jsCookie.set('email', res.data.email);
   
+      return router.push('/home/home');
+    }
+  
+    else
+      wrongInfoError = true;
+  }).catch(err => console.log(err));
+
   setIsSending(false)
 }, []);
 
@@ -73,7 +67,7 @@ const sendRequest = useCallback(async (event) => {
                 error
               />
             )}
-            <Form onSubmit={sendRequest}>
+            <Form onSubmit={sendLoginRequest}>
               <Form.Input
                 icon="mail"
                 iconPosition="left"
