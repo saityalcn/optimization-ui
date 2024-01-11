@@ -1,6 +1,6 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
-import ProjectsTable from './projectsTable';
+import OrdersTable from './ordersTable';
 import { useEffect } from 'react';
 import {
   Header,
@@ -20,8 +20,8 @@ export default () => {
         href="semantic/dist/semantic.min.css"
       ></link>
         <MainLayout>
-              <Header as="h2">Projeler</Header>
-              <ProjectsTable></ProjectsTable>
+              <Header as="h2">Siparişler</Header>
+              <OrdersTable></OrdersTable>
         </MainLayout>
     </div>
   );

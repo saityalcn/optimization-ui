@@ -11,11 +11,10 @@ const iconColor = "#111111"
 export default (props) => {
   const [currentUserName, setCurrentUserName] = useState(null)
   const router = useRouter();
-  const name = jsCookie.get('name');
-  const surname = jsCookie.get("surname");
+  const email = jsCookie.get('email');
 
   useEffect(() => {
-    setCurrentUserName(name + " " + surname);
+    setCurrentUserName(email);
   }, [])
 
   return (
@@ -37,7 +36,7 @@ export default (props) => {
           >
             <div style={{display: "flex", justifyContent: "space-between", flexDirection: "column", height: 100 + "%"}}>
               <div>
-                <Header>YSOFT Yazılım Evi İnsan Kaynakları Sistemi</Header>
+                <Header>Üretim Optimizasyonu Sistemi</Header>
               <Menu.Item
                 as="a"
                 style={{ color: iconColor }}
@@ -52,30 +51,49 @@ export default (props) => {
                 as="a"
                 style={{ color: iconColor }}
                 onClick={() => {
-                  router.push('/project/projects');
+                  router.push('/product/products');
                 }}>
-                <Icon name="keyboard" />
-                Projeler
+                <Icon name="list alternate" />
+                Ürünler
               </Menu.Item>
               <Menu.Item
                 as="a"
                 style={{ color: iconColor }}
                 onClick={() => {
-                  router.push('/employee/employees');
+                  router.push('/rawMaterial/rawMaterials');
+                }}>
+                <Icon name="keyboard" />
+                Hammaddeler
+              </Menu.Item>
+              <Menu.Item
+                as="a"
+                style={{ color: iconColor }}
+                onClick={() => {
+                  router.push('/order/orders');
+                }}>
+                <Icon name="truck" />
+                Siparişler
+              </Menu.Item>
+              {
+              <Menu.Item
+                as="a"
+                style={{ color: iconColor }}
+                onClick={() => {
+                  router.push('/user/users');
                 }}
               >
                 <Icon name="id badge" />
                 Çalışanlar
               </Menu.Item>
+              }
             </div>
+
             
             <div>
             <Menu.Item
               as="a"
               onClick={() => {
                 jsCookie.remove("email")
-                jsCookie.remove("name")
-                jsCookie.remove("surname")
                 router.push('/');
               }}
               style={{ color: iconColor }}><div style={{paddingBottom: 10+"px"}}>{currentUserName}</div><Icon name="sign-out" /></Menu.Item>

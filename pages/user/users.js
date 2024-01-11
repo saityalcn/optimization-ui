@@ -1,14 +1,9 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
 
-import EmployeeTable from './employeeTable';
-import { useEffect } from 'react';
+import UserTable from './userTable';
 import {
   Header,
-  Icon,
-  Button,
-  Form,
-  Card
 } from 'semantic-ui-react';
 import MainLayout from '../layouts/layout';
 
@@ -21,8 +16,8 @@ export default () => {
         href="semantic/dist/semantic.min.css"
       ></link>
         <MainLayout>
-              <Header as="h2">Çalışanlar</Header>
-              <EmployeeTable></EmployeeTable>
+              <Header as="h2">Kullanıcılar</Header>
+              <UserTable></UserTable>
         </MainLayout>
     </div>
   );
