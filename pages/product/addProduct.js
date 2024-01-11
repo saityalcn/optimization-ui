@@ -9,9 +9,6 @@ import {
 import Layout from '../layouts/layout';
 import {addProduct} from '../../services/productService'
 import { useRouter } from 'next/router';
-import { getPositions } from '../../services/positionService';
-import { getFreeWorkers } from '../../services/employeeService';
-import { addProjectPosition } from '../../services/projectPositionService';
 
 let request = false;
 
@@ -21,8 +18,6 @@ const addProjectForm = () => {
   const [workers, setWorkers] = useState([])
 
   const router = useRouter();
-  if(!positions)
-    getPositions().then(res => {setPositions(res.data)}).catch(err => console.log(err));
 
   if(!workers)
     getFreeWorkers().then(res => {
@@ -70,7 +65,7 @@ const addProjectForm = () => {
           type="submit"
         >
           <Icon name="plus"></Icon>
-            Projeyi Olustur
+            Olustur
         </Button>
       </Form>
     </Layout>

@@ -11,7 +11,7 @@ const renderBody = (data) => {
       <Table.Row key={element.id}>
           <Table.Cell>{element.id}</Table.Cell>
           <Table.Cell>{element.information.materialName}</Table.Cell>
-          <Table.Cell>{element.title}</Table.Cell>
+          <Table.Cell>{element.productionPlanName}</Table.Cell>
           <Table.Cell>{element.quantity} kg</Table.Cell>
           <Table.Cell></Table.Cell>
           <Table.Cell></Table.Cell>

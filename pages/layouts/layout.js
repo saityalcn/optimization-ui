@@ -11,11 +11,10 @@ const iconColor = "#111111"
 export default (props) => {
   const [currentUserName, setCurrentUserName] = useState(null)
   const router = useRouter();
-  const name = jsCookie.get('name');
-  const surname = jsCookie.get("surname");
+  const email = jsCookie.get('email');
 
   useEffect(() => {
-    setCurrentUserName(name + " " + surname);
+    setCurrentUserName(email);
   }, [])
 
   return (
@@ -95,8 +94,6 @@ export default (props) => {
               as="a"
               onClick={() => {
                 jsCookie.remove("email")
-                jsCookie.remove("name")
-                jsCookie.remove("surname")
                 router.push('/');
               }}
               style={{ color: iconColor }}><div style={{paddingBottom: 10+"px"}}>{currentUserName}</div><Icon name="sign-out" /></Menu.Item>

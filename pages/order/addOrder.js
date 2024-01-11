@@ -79,7 +79,7 @@ const addProjectForm = () => {
           type="submit"
         >
           <Icon name="plus"></Icon>
-            Projeyi Olustur
+            Olustur
         </Button>
       </Form>
     </Layout>

@@ -11,6 +11,7 @@ const renderProjects = (orders) => {
       <Table.Row key={order.id}>
           <Table.Cell>{order.id}</Table.Cell>
           <Table.Cell>{order.orderTitle}</Table.Cell>
+          <Table.Cell>{order.productionPlanName}</Table.Cell>
           <Table.Cell>{order.product.title}</Table.Cell>
           <Table.Cell>{order.orderQuantity}</Table.Cell>
           <Table.Cell>{!order.projectValid && order.projectActive && (
@@ -59,6 +60,7 @@ function projectsTable(){
         <Table.Row>
           <Table.HeaderCell>ID</Table.HeaderCell>
           <Table.HeaderCell>Sipariş Başlığı</Table.HeaderCell>
+          <Table.HeaderCell>Üretim Planı</Table.HeaderCell>
           <Table.HeaderCell>Ürün</Table.HeaderCell>
           <Table.HeaderCell>Miktar</Table.HeaderCell>
           <Table.HeaderCell> </Table.HeaderCell>
@@ -68,6 +70,7 @@ function projectsTable(){
       <Table.Body>{renderProjects(data)}</Table.Body>
       <Table.Footer fullWidth>
           <Table.Row>
+            <Table.HeaderCell />
             <Table.HeaderCell />
             <Table.HeaderCell />
             <Table.HeaderCell />

@@ -1,9 +1,11 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
-import { Table, Button, Icon, Loader, Modal, Message, Tab, Grid, Header } from 'semantic-ui-react';
-import { useState,useCallback } from 'react';
+import { Table, Button, Icon, Loader, Modal, Message, Tab, Grid, Header, Form } from 'semantic-ui-react';
+import { useState,useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {getProductionPlans, saveOptimizedProduction} from '../../services/productionPlanService'
+import {getMethods} from '../../services/methodService'
+
 import moment from 'moment';
 
 
@@ -20,10 +22,8 @@ const renderModalTableBody = (data) => {
         <Table.Cell></Table.Cell>
       </Table.Row>
     );
-  });
-  
+  });  
 }
-
 
 const renderPlanDetail = (plan) => {
     return(
@@ -52,23 +52,33 @@ const renderPlanDetail = (plan) => {
     );
 }
 
-const renderModalBody = ([selectedPlan, setSelectedPlan]) => {
-  const panes = []
+const renderModalBody = ([selectedPlan, setSelectedPlan], [selectedAlgorithmKey, setSelectedAlgorithmKey], [methods, setMethods]) => {
+  const filteredPanes = []
+
   if(selectedPlan){
-    selectedPlan.plannedProductionList.forEach((element, index) => {
-      panes.push(
+    selectedPlan.plannedProductionList.filter(element => element.method.id === selectedAlgorithmKey).forEach((element, index) => {
+      filteredPanes.push(
         {
           menuItem: index + 1,    // product title 
           render: () => renderPlanDetail(element)
         }
       )
     });
-
-    return <Tab panes={panes}></Tab>
   }
+
+    return <div>
+      <Form.Select label="Algoritma " placeholder='Algoritma Seçiniz' 
+      options={methods.map(element => {return { key: element.id, value: element.title, text: element.title }})} 
+      onChange={(e,data) => {
+        setSelectedAlgorithmKey((data.options.find(element => (element.value === data.value))).key)
+      }}>
+
+      </Form.Select>
+    <Tab panes={filteredPanes}></Tab></div>
+
 }
 
-const renderBody = (data, [open, setOpen], [selectedPlan, setSelectedPlan]) => {
+const renderBody = (data, [open, setOpen], [selectedPlan, setSelectedPlan], [selectedAlgorithmKey, setSelectedAlgorithmKey], [methods, setMethods]) => {
   return data.map((element) => {
     return (
       <Table.Row key={element.id}>
@@ -95,7 +105,7 @@ const renderBody = (data, [open, setOpen], [selectedPlan, setSelectedPlan]) => {
                     <Modal.Header>Üretim Planı</Modal.Header>
                     <Modal.Content>
                       <Modal.Description>
-                        {renderModalBody([selectedPlan, setSelectedPlan])}
+                        {renderModalBody([selectedPlan, setSelectedPlan], [selectedAlgorithmKey, setSelectedAlgorithmKey], [methods, setMethods])}
                       </Modal.Description> 
                     </Modal.Content>
                     <Modal.Actions>
@@ -122,10 +132,18 @@ function projectsTable(){
   const [data, setData] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [selectedAlgorithmKey, setSelectedAlgorithmKey] = useState('')
+  const [methods, setMethods] = useState(null)
 
   if(!data){
     getProductionPlans().then(res => {
       setData(res.data);
+    }).catch(err => console.log(err))
+  }
+
+  if(!methods){
+    getMethods().then(res => {
+      setMethods(res.data);
     }).catch(err => console.log(err))
   }
 
@@ -148,7 +166,7 @@ function projectsTable(){
         </Table.Row>
       </Table.Header>
 
-      <Table.Body>{renderBody(data, [open, setOpen], [selectedPlan, setSelectedPlan])}</Table.Body>
+      <Table.Body>{renderBody(data, [open, setOpen], [selectedPlan, setSelectedPlan], [selectedAlgorithmKey, setSelectedAlgorithmKey], [methods, setMethods])}</Table.Body>
       <Table.Footer fullWidth>
           <Table.Row>
             <Table.HeaderCell />
