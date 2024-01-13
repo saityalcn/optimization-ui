@@ -109,7 +109,7 @@ const renderBody = (data, [open, setOpen], [selectedPlan, setSelectedPlan], [sel
                       </Modal.Description> 
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button negative onClick={() => setOpen(false)}>Kapat</Button>
+                        <Button negative onClick={() => {setSelectedAlgorithmKey(null); setOpen(false)}}>Kapat</Button>
                     </Modal.Actions>
                 </Modal>
               }

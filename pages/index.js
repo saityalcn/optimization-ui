@@ -34,7 +34,7 @@ const [isSubmitted, setSubmitted] = useState(false);
 const sendLoginRequest = useCallback(async (event) => {
   if (isSending) return
 
-  console.log("abc");
+  //console.log("abc");
 /*
   if(!isChecked){
     setSubmitted(true);
@@ -50,7 +50,7 @@ const sendLoginRequest = useCallback(async (event) => {
   const jsonObject = {email: email, password: password};
 
   login(jsonObject).then(res => {
-    console.log(res);
+    //console.log(res);
     if(res.data && res.data.email){
       jsCookie.set('email', res.data.email);
   
