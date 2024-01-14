@@ -43,7 +43,7 @@ const addProjectForm = () => {
       request = true
       addOrder(jsonObject).then(res => {
         router.push("/order/orders");
-        console.log(res);
+        request = false;
       }).catch(err => console.log(err));
    }
   });
