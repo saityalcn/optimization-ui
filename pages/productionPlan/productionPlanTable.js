@@ -1,6 +1,6 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
-import { Table, Button, Icon, Loader, Modal, Message, Tab, Grid, Header, Form } from 'semantic-ui-react';
+import { Table, Button, Icon, Loader, Modal, Message, Tab, Grid, Header, Form, Confirm } from 'semantic-ui-react';
 import { useState,useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {getProductionPlans, saveOptimizedProduction} from '../../services/productionPlanService'
@@ -78,7 +78,16 @@ const renderModalBody = ([selectedPlan, setSelectedPlan], [selectedAlgorithmKey,
 
 }
 
-const renderBody = (data, [open, setOpen], [selectedPlan, setSelectedPlan], [selectedAlgorithmKey, setSelectedAlgorithmKey], [methods, setMethods]) => {
+const renderBody = (data, [open, setOpen], [selectedPlan, setSelectedPlan], [selectedAlgorithmKey, setSelectedAlgorithmKey], [methods, setMethods], [confirmOpen, setConfirmOpen]) => {
+    const showConfirm = () => setConfirmOpen(true);
+
+    const handleConfirm = () => {
+      setConfirmOpen(false);
+    };
+  
+    const handleCancel = () => {
+      setConfirmOpen(false);
+    };
   return data.map((element) => {
     return (
       <Table.Row key={element.id}>
@@ -87,8 +96,18 @@ const renderBody = (data, [open, setOpen], [selectedPlan, setSelectedPlan], [sel
           <Table.Cell>{formatDate(element.startDate)}</Table.Cell>
           <Table.Cell>{formatDate(element.endDate)}</Table.Cell>
           <Table.Cell>
-            {element.plannedProductionList == null || element.plannedProductionList.length === 0 && <Button positive size="small" fluid onClick={() => {saveOptimizedProduction(element.id)}}> Üretimi Planla
+            {element.plannedProductionList == null || element.plannedProductionList.length === 0 && <Button positive size="small" fluid onClick={() => {
+              saveOptimizedProduction(element.id)
+              showConfirm();
+              }}> 
+              Üretimi Planla
               </Button>}
+              <Confirm
+                open={confirmOpen}
+                onCancel={handleCancel}
+                onConfirm={handleConfirm}
+                content="Planlama işlemi başlatılmıştır. Birkaç dakika içinde işlem tamamlanacak ve 'Planı Gör' butonu görülecektir."
+              />
               {element.plannedProductionList && element.plannedProductionList.length > 0 &&
                 <Modal
                 onClose={() => setOpen(false)}
@@ -134,6 +153,7 @@ function projectsTable(){
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedAlgorithmKey, setSelectedAlgorithmKey] = useState('')
   const [methods, setMethods] = useState(null)
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   if(!data){
     getProductionPlans().then(res => {
@@ -166,7 +186,7 @@ function projectsTable(){
         </Table.Row>
       </Table.Header>
 
-      <Table.Body>{renderBody(data, [open, setOpen], [selectedPlan, setSelectedPlan], [selectedAlgorithmKey, setSelectedAlgorithmKey], [methods, setMethods])}</Table.Body>
+      <Table.Body>{renderBody(data, [open, setOpen], [selectedPlan, setSelectedPlan], [selectedAlgorithmKey, setSelectedAlgorithmKey], [methods, setMethods],[confirmOpen, setConfirmOpen])}</Table.Body>
       <Table.Footer fullWidth>
           <Table.Row>
             <Table.HeaderCell />
